@@ -1,7 +1,219 @@
 <html>
 
-	<body>
-	Hello World
-	</body>
+	<head>
+		<link href='https://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
+		<style type="text/css">
+			
+			.bloco{ 
+				float:left;
+				width:5.05%;
+				height:65px;
+				margin-left: 0.25%;			
+				margin-bottom: 0.25%;			
+				margin-right: 0.25%;			
+				background-color:#DDDDDD;
+				display:table-cell;
+				border-radius:10px;
+				cursor:pointer;
+			}
+			#container{
+				position: absolute;
+				width:99%;
+				background-color:white;	
+				display: table;
+			}
+			#wrapper-menu{
+				position:absolute;
+				width:99%;
+				height:98.5%;
+				display:none;
+				z-index:1;
+			}
+			#menu{
+				width:15%;
+				height:100%;
+				background-color:black;
+				float:left;
+			}
+			#outside{
+				width:83%;
+				height:100%;
+				float:left;
+			}
+			.botao{
+				color:#BBBBBB;
+				font-size:500%;
+				text-align:center;
+				text-decoration:none;
+				width: 45%;
+				height:14%;
+				margin-top:20px;
+				margin-left:27.5555%;
+				background-color: #F3F3F3;
+				border-radius: 10px;
+				cursor:pointer;
+				border:solid #BBBBBB 3px;
+			}
+			#div-cores{
+				width:80%;
+				margin-left:10%;
+				height:10%;
+				background-color:blue;
+				border-radius:10px;
+				border:solid #FFFFFF 3px;
+			}
+			.invisivel{
+				width:1px;
+				height:1px;
+				opacity:0;
+			}
+			h1{
+				text-align:center;
+				color:#DDDDDD;
+				font-family: 'Josefin Sans', sans-serif;
+			}
+		</style>
+	
+	<head>
 
+	
+	<body>
+		<div id="wrapper-menu">
+			<div id="menu">				
+				<input type="hidden" value="" id="data-ativo" />
+				<h1>Gridder</h1>
+				<div id="div-cores"></div>
+				<input type="color" id="color-picker" class="invisivel">
+				<div id="mais-container" class="botao">
+					<a id="mais">+</a>
+				</div>
+				<div id="aumentar-direita" class="botao">
+					<a id="direita-mais">></a>
+				</div>
+			</div>
+			<div id="outside"></div>
+		</div>
+		<div id='container' class="sortable">		
+			
+		</div>
+		
+	</body>	
+	
+	<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/vader/jquery-ui.css">
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<script>
+		$(document).ready(function(){
+		
+			//este hook é uma gamb, peguei do stackoverflow HEIAUEHIAUHAE
+			//serve pra pegar hex em vez de rgb quando eu pegar com .css(background-color)
+			$.cssHooks.backgroundColor = {
+				get: function(elem) {
+					if (elem.currentStyle)
+						var bg = elem.currentStyle["backgroundColor"];
+					else if (window.getComputedStyle)
+						var bg = document.defaultView.getComputedStyle(elem,
+							null).getPropertyValue("background-color");
+					if (bg.search("rgb") == -1)
+						return bg;
+					else {
+						bg = bg.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+						function hex(x) {
+							return ("0" + parseInt(x).toString(16)).slice(-2);
+						}
+						return "#" + hex(bg[1]) + hex(bg[2]) + hex(bg[3]);
+					}
+				}
+			}
+			//iniciar os sortables maravilhosos
+			
+			
+			$( ".sortable" ).sortable();
+			$( ".sortable" ).disableSelection();
+			  
+			//aqui os blocos ganham propriedades e mágica começa
+			
+			
+			$("body").delegate(".bloco", "click", function(){
+				$(this).attr("data-nome", "novo nome");	
+				console.log($(this).css("background-color"));
+				$("#color-picker").val($(this).css("background-color"));
+				$("#div-cores").css("background-color", $("#color-picker").val());
+				$("#data-ativo").val($(this).attr("data-id"));
+				$("#wrapper-menu").animate({width:'toggle'},150);
+			});
+			
+			
+			
+			//cores man//
+			
+			$("#div-cores").click(function (){
+				console.log("eu existo");
+				$("#color-picker").click();
+				
+			});
+			
+			$("#color-picker").change(function(){
+				$("#div-cores").css("background-color", $(this).val());
+			});
+			
+			
+			//efeitos ao sair do menu//
+			
+			$("#outside").click(function(){
+				var cor = $("#color-picker").val(),
+					idOnde = $("#data-ativo").val();
+				$("#data-ativo").val($(this).attr(""));	
+				$(".bloco[data-id='" + idOnde + "']").css("background-color", cor);
+				$("#wrapper-menu").animate({width:'toggle'},150);
+			});  
+			
+			
+			// criar linha//
+			
+			var modelo = '<div class="bloco" data-id="###" data-tamanho="1"></div>',
+				contador = 1,
+				linhaAtual = 1;
+			;
+			$("#mais").click( function(){
+				
+				while(contador<=(18*linhaAtual)){
+					//console.log(modelo)
+					var pronto = modelo.replace(/###/g, contador);
+					$("#container").append(pronto);
+					contador+=1;
+				}
+				linhaAtual +=1;
+			});
+			$("#mais").trigger("click");
+			
+			
+			//aumentar um bloco pra direita// --------- é dificil!!
+			
+			var tamanhoPadrao = 68;
+			var margemPadrao  = 3.375;
+			//console.log(margemPadrao);
+			$("#aumentar-direita").click(function(){
+				
+				var dataId = $("#data-ativo").val();
+				
+				if(dataId%18!=0){
+					
+					var datatamanho = parseInt($(".bloco[data-id='" + dataId + "']").attr("data-tamanho")),
+						idProximo = parseInt(dataId)+1+parseInt(datatamanho)-1,
+						datatamanhoProximo = parseInt($(".bloco[data-id='" + idProximo + "']").attr("data-tamanho")),
+						tamanho = parseFloat($(".bloco[data-id='" + dataId + "']").css("width"), 10)+ (tamanhoPadrao*datatamanhoProximo),						
+						margem = parseFloat($(".bloco[data-id='" + dataId + "']").css("margin-left"), 10) + (margemPadrao*datatamanhoProximo),
+						tamanhoTotal = tamanho+margem;
+					console.log(tamanho+" de tamanho, "+margem+" de margem");
+					$(".bloco[data-id='" + idProximo + "']").remove();
+					$(".bloco[data-id='" + dataId + "']").css("width", tamanhoTotal);
+					$(".bloco[data-id='" + dataId + "']").attr("data-tamanho", parseInt($(".bloco[data-id='" + dataId + "']").attr("data-tamanho"))+1);
+				}
+			
+			});
+			
+		});
+	
+	</script>
 </html>
