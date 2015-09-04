@@ -218,7 +218,7 @@
 			//menu da direita
 			
 			$("#container").click(function(){
-				$("#wrapper-menu-direita").effect("show","swing", 1000);
+				$("#wrapper-menu-direita").show("slide", { direction: "right" }, 1000);
 			});
 			$("#outside-direita").click(function(){
 				$("#wrapper-menu-direita").hide("slide", { direction: "right" }, 1000);
