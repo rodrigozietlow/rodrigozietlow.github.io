@@ -27,26 +27,29 @@
 			}
 			.bloco{ 
 				float:left;
-				width:5.05%;
-				height:65px;
-				margin-left: 0.25%;			
-				margin-top: 0.25%;			
-				margin-right: 0.25%;			
+				width:10px;
+				height:10px;
+				margin:2px;			
 				background-color:#DDDDDD;
 				display:table-cell;
-				border-radius:10px;
+				border-radius:2px;
 				cursor:pointer;
+	
 			}
 			#container{
 				position: absolute;
-				width:99%;
-				background-color:white;	
-				display: table;
+				width:1360px;
+				height:660px;
+				background-image:url("grid-bg.png");				
+				display: inline-block;
+				margin:2px;
+				padding-left:2px;
+				padding-top:2px;
 			}
 			#wrapper-menu{
 				position:absolute;
-				width:99%;
-				height:98.5%;
+				width:100%;
+				height:100%;
 				display:none;
 				z-index:1;
 			}
@@ -57,10 +60,29 @@
 				float:left;
 			}
 			#outside{
-				width:83%;
+				width:85%;
 				height:100%;
 				float:left;
 			}
+			#wrapper-menu-direita{
+				position:absolute;
+				width:100%;
+				height:100%;
+				display:none;
+				z-index:1;
+			}
+			#menu-direita{
+				width:15%;
+				height:100%;
+				background-color:black;
+				float:left;
+			}
+			#outside-direita{
+				width:85%;
+				height:100%;
+				float:left;
+			}
+			
 			.botao, .bota-chevron{
 				color:#DDDDDD;
 				font-family: 'Source Code Pro', ;
@@ -137,8 +159,14 @@
 			</div>
 			<div id="outside"></div>
 		</div>
-		<div id='container' class="sortable">		
+		<div id="wrapper-menu-direita">
 			
+			<div id="outside-direita"></div>
+			<div id="menu-direita">				
+				
+			</div>
+		</div>
+		<div id='container' class="sortable">
 		</div>
 		
 	</body>	
@@ -187,6 +215,14 @@
 				$("#wrapper-menu").animate({width:'toggle'},150);
 			});
 			
+			//menu da direita
+			
+			$("#container").click(function(){
+				$("#wrapper-menu-direita").effect("show","swing", 1000);
+			});
+			$("#outside-direita").click(function(){
+				$("#wrapper-menu-direita").hide("slide", { direction: "right" }, 1000);
+			});
 			
 			
 			//cores man//
@@ -221,7 +257,7 @@
 			;
 			$("#mais").click( function(){
 				
-				while(contador<=(18*linhaAtual)){
+				while(contador<=(97*linhaAtual)){
 					//console.log(modelo)
 					var pronto = modelo.replace(/###/g, contador);
 					$("#container").append(pronto);
@@ -229,7 +265,7 @@
 				}
 				linhaAtual +=1;
 			});
-			$("#mais").trigger("click");
+			//$("#mais").trigger("click");
 			
 			
 			//aumentar um bloco pra direita// --------- é dificil!!
