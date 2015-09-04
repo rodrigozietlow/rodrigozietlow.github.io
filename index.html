@@ -2,6 +2,24 @@
 
 	<head>
 		<link href='https://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
+		<style>
+		/* Rotate */
+		.hvr-rotate {
+		  display: inline-block;
+		  vertical-align: middle;
+		  -webkit-transition-duration: 0.5s;
+		  transition-duration: 0.5s;
+		  -webkit-transition-property: transform;
+		  transition-property: transform;
+		}
+		.hvr-rotate:hover, .hvr-rotate:focus, .hvr-rotate:active {
+		  -webkit-transform: rotate(360deg);
+		  transform: rotate(360deg);
+		}
+
+		
+		</style>
 		<style type="text/css">
 			
 			.bloco{ 
@@ -41,18 +59,29 @@
 				float:left;
 			}
 			.botao{
-				color:#BBBBBB;
-				font-size:500%;
+				color:black;
+				font-family: 'Source Code Pro', ;
+				font-size:200%;
+				font-weight: 700;
 				text-align:center;
 				text-decoration:none;
-				width: 45%;
-				height:14%;
+				width: 21.6777%;
+				height:7%;
 				margin-top:20px;
-				margin-left:27.5555%;
-				background-color: #F3F3F3;
+				margin-left:5%;
+				background-color: #FFFFFF;
 				border-radius: 10px;
 				cursor:pointer;
-				border:solid #BBBBBB 3px;
+				border:solid #DE3DB1 2.5px;
+				display:table;
+				vertical-align:middle;
+				float:left;
+			}
+			.botao-primeiro{
+				margin-left:10%;
+			}
+			.formata{
+				display:table-cell;
 			}
 			#div-cores{
 				width:80%;
@@ -60,17 +89,22 @@
 				height:10%;
 				background-color:blue;
 				border-radius:10px;
-				border:solid #FFFFFF 3px;
+				border:solid #DE3DB1 3px;
+				cursor:pointer;
 			}
 			.invisivel{
 				width:1px;
 				height:1px;
 				opacity:0;
 			}
-			h1{
+			h1, #creditos{
 				text-align:center;
-				color:#DDDDDD;
+				color:#6AF50E;
 				font-family: 'Josefin Sans', sans-serif;
+			}
+			#creditos{
+				height:5%;
+				margin-top:220%;
 			}
 		</style>
 	
@@ -84,12 +118,13 @@
 				<h1>Gridder</h1>
 				<div id="div-cores"></div>
 				<input type="color" id="color-picker" class="invisivel">
-				<div id="mais-container" class="botao">
-					<a id="mais">+</a>
+				<div id="mais-container" class="botao botao-primeiro">
+					<span class="formata hvr-rotate"><a id="mais">+</a></span>
 				</div>
 				<div id="aumentar-direita" class="botao">
-					<a id="direita-mais">></a>
+					<span class="formata hvr-rotate"><a id="direita-mais">></a></span>
 				</div>
+				<div id="creditos">Rodrigo Zietlow</div>
 			</div>
 			<div id="outside"></div>
 		</div>
