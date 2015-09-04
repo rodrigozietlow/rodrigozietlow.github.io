@@ -58,8 +58,8 @@
 				height:100%;
 				float:left;
 			}
-			.botao{
-				color:black;
+			.botao, .bota-chevron{
+				color:#DDDDDD;
 				font-family: 'Source Code Pro', ;
 				font-size:200%;
 				font-weight: 700;
@@ -69,16 +69,19 @@
 				height:7%;
 				margin-top:20px;
 				margin-left:5%;
-				background-color: #FFFFFF;
+				background-color: #000000;
 				border-radius: 10px;
 				cursor:pointer;
-				border:solid #DE3DB1 2.5px;
+				border:solid #6AF50E 2px;
 				display:table;
 				vertical-align:middle;
 				float:left;
 			}
 			.botao-primeiro{
 				margin-left:10%;
+			}
+			.botao-chevron{
+				font-size:160%;
 			}
 			.formata{
 				display:table-cell;
@@ -89,7 +92,7 @@
 				height:10%;
 				background-color:blue;
 				border-radius:10px;
-				border:solid #DE3DB1 3px;
+				border:solid #6AF50E 3px;
 				cursor:pointer;
 			}
 			.invisivel{
@@ -121,8 +124,11 @@
 				<div id="mais-container" class="botao botao-primeiro">
 					<span class="formata hvr-rotate"><a id="mais">+</a></span>
 				</div>
-				<div id="aumentar-direita" class="botao">
+				<div id="aumentar-direita" class="botao botao-chevron">
 					<span class="formata hvr-rotate"><a id="direita-mais">></a></span>
+				</div>
+				<div id="aumentar-baixo" class="botao botao-chevron">
+					<span class="formata hvr-rotate"><a id="baixo-mais">∨</a></span>
 				</div>
 				<div id="creditos">Rodrigo Zietlow</div>
 			</div>
