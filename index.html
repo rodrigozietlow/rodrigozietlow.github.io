@@ -118,6 +118,7 @@
 			#div-cores{
 				width:80%;
 				margin-left:10%;
+				margin-top:20px;
 				height:10%;
 				background-color:blue;
 				border-radius:10px;
@@ -140,8 +141,13 @@
 				bottom:0%;
 				margin-left:4%;
 			}
-			#menu-direita h1{
+			#menu-direita h1, h3{
 				margin-left:20px;
+			}
+			.separador{
+				width:90%;
+				margin-left:5%;
+				border-bottom: 2px solid rgba(255, 255,255, 0.5);
 			}
 		</style>
 	
@@ -154,6 +160,7 @@
 				<input type="hidden" value="" id="data-ativo" />
 				<h1>Gridder</h1>
 				<h3>*Bloco*</h3>
+				<div class="separador"></div>
 				<div id="div-cores"></div>
 				<input type="color" id="color-picker" class="invisivel">
 				<div id="mais-container" class="botao botao-primeiro">
@@ -174,6 +181,8 @@
 			<div id="outside-direita"></div>
 			<div id="menu-direita">				
 				<h1>Gridder</h1>
+				<h3>*Grid*</h3>
+				<div class="separador"></div>
 				<div id="novo-bloco" class="botao botao-primeiro"><a >+</a></div>
 			</div>
 		</div>
@@ -271,7 +280,7 @@
 				$("#outside-direita").click();
 			});
 			
-			//aumentar um grid-lvl pra direita//
+			//aumentar um grid-lvl pra direita ou baixo//
 			
 			$("#direita-mais").click(function(){
 				var idOnde = $("#data-ativo").val(),
