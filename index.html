@@ -14,6 +14,19 @@
 		  transition-property: transform;
 		}
 		.hvr-rotate:hover, .hvr-rotate:focus, .hvr-rotate:active {
+		  -webkit-transform: rotate(-360deg);
+		  transform: rotate(-360deg);
+		}
+		/* Rotate Inverse*/
+		.hvr-rotate-inverse {
+		  display: inline-block;
+		  vertical-align: middle;
+		  -webkit-transition-duration: 0.5s;
+		  transition-duration: 0.5s;
+		  -webkit-transition-property: transform;
+		  transition-property: transform;
+		}
+		.hvr-rotate-inverse:hover, .hvr-rotate-inverse:focus, .hvr-rotate-inverse:active {
 		  -webkit-transform: rotate(360deg);
 		  transform: rotate(360deg);
 		}
@@ -95,12 +108,13 @@
 				font-weight: 700;
 				text-align:center;
 				text-decoration:none;
-				width:2.5%;
+				width:30px;
 				margin-top:2px;
 				margin-left:5px;
 				background-color: #000000;
-				border-radius: 10px;
+				border-radius: 50%;
 				cursor:pointer;
+				padding-top:-3px;
 				border:solid rgba(255, 255,255, 0.1) 2px;
 				display:inline-block;
 				vertical-align:middle;
@@ -165,11 +179,15 @@
 				height:40px;
 				font-size:30px;
 				margin-right:20px;
-				margin-left:5px;
+				margin-left:10px;
 				font-weight:700;
 			}
 			.ativo{
 				 box-shadow: inset 0 0 10px #000000, inset 0 0 10px #000000, inset 0 0 10px #000000;
+			}
+			.especial{
+				padding-top:2px;
+				font-size:19.5;
 			}
 		</style>
 	
@@ -180,22 +198,37 @@
 		<div id="wrapper-site">
 			<div id="menu-total">
 				<span class="titulo">Gridder</span>
-				<div id="novo-bloco" class="botao botao-primeiro"><a class=" hvr-rotate">+</a></div>
+				<div id="novo-bloco" class="botao botao-primeiro hvr-rotate-inverse"><a class="">+</a></div>
 				<div class="separador"></div>
 				<div id="div-cores"></div>
 				<input type="color" id="color-picker" class="invisivel">
-				<div id="aumentar-direita" class="botao">
-					<a id="direita-mais" class="hvr-rotate">></a>
+				<div class="separador"></div>
+				<div id="aumentar-esquerda" class="botao hvr-rotate-inverse">
+					<a id="direita-menos" class=""><</a>
 				</div>
-				<div id="aumentar-baixo" class="botao">
-					<a id="baixo-mais" class="hvr-rotate">v</a>
+				<div id="aumentar-direita" class="botao hvr-rotate">
+					<a id="direita-mais" class="">></a>
 				</div>
-				<div id="margem-direita" class="botao">
-					<a id="margem-mais-direita" class="hvr-rotate">→</a>
+				<div id="aumentar-baixo" class="botao hvr-rotate">
+					<a id="baixo-mais" class="">v</a>
 				</div>
-				<div id="margem-baixo" class="botao">
-					<a id="margem-mais-baixo" class="hvr-rotate">↓</a>
+				<div id="aumentar-cima" class="botao hvr-rotate-inverse">
+					<a id="baixo-menos" class=""><span class="especial">⋀</span></a>
 				</div>
+				<div class="separador"></div>
+				<div id="margem-esquerda" class="botao hvr-rotate-inverse">
+					<a id="margem-menos-direita" class="">←</a>
+				</div>
+				<div id="margem-direita" class="botao hvr-rotate">
+					<a id="margem-mais-direita" class="">→</a>
+				</div>
+				<div id="margem-baixo" class="botao hvr-rotate-inverse">
+					<a id="margem-mais-baixo" class="">↓</a>
+				</div>
+				<div id="margem-cima" class="botao hvr-rotate">
+					<a id="margem-menos-baixo" class="">↑</a>
+				</div>
+				
 			</div>
 			<div id='container' class="sortable">
 			</div>
@@ -272,42 +305,72 @@
 			// modelos e coisas// 
 			var modelo = '<div class="bloco" data-id="###" data-tamanho="1"></div>',
 				contador = 1;
+			var w_grid = $('#container').width();
+			var h_grid = $('#container').height();
+			
+			//novo bloco//
+			
 			$("#novo-bloco").click(function(){
 				var pronto = modelo.replace(/###/g, contador);
 				contador += 1;
 				$("#container").append(pronto);
+				console.log(contador);
+				$(".bloco[data-id = " + (contador-1) + " ]").trigger("click");
 			});
 			
 			//aumentar um grid-lvl pra direita ou baixo//
 			
 			$("#aumentar-direita").click(function(){
 				var tamanho = $(".ativo").width(),
+					margem = parseInt($(".ativo").css("margin-left"));
 					extra = 14; //aqui é o tamanho extra que será adicionado
 				tamanho += extra;
-				$(".ativo").css("width", tamanho);
+				if(margem+tamanho<=w_grid){
+					$(".ativo").css("width", tamanho);
+				}
+			});
+			$("#aumentar-esquerda").click(function(){
+				var tamanho = $(".ativo").width(),
+					margem = parseInt($(".ativo").css("margin-left"));
+					extra = 14; //aqui é o tamanho extra que será adicionado
+				tamanho += extra;
+				if(margem+tamanho<=w_grid){
+					$(".ativo").css("width", tamanho);
+				}
 			});
 			$("#aumentar-baixo").click(function(){
 				var tamanho = $(".ativo").height(),
+					margem = parseInt($(".ativo").css("margin-top"))
 					extra = 14; //aqui é o tamanho extra que será adicionado
 				tamanho += extra;
-				$(".ativo").css("height", tamanho);
+				if(margem+tamanho<=h_grid){
+					$(".ativo").css("height", tamanho);
+				}
 			});
+			
 			
 			
 			//aumentar a margem AKA botar pro lado//
 			
 			$("#margem-direita").click(function(){
 				var margem = parseInt($(".ativo").css("marginLeft")),
+					tamanho = $(".ativo").width();
 					extra = 14; //aqui é o tamanho extra que será adicionado
 				margem += extra;
-				$(".ativo").css("margin-left", margem);
+				if(margem+tamanho<=w_grid){
+					$(".ativo").css("margin-left", margem);
+				}
+				
 				console.log(margem);
 			});
 			$("#margem-baixo").click(function(){
 				var margem = parseInt($(".ativo").css("margin-top")),
+					tamanho = $(".ativo").height();
 					extra = 14; //aqui é o tamanho extra que será adicionado
 				margem += extra;
-				$(".ativo").css("margin-top", margem);
+				if(margem+tamanho<=h_grid){
+					$(".ativo").css("margin-top", margem);
+				}
 				console.log(margem);
 			});
 		});
