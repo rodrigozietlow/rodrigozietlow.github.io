@@ -178,28 +178,6 @@
 	
 	<body>
 		<div id="wrapper-site">
-			<div id="wrapper-menu">
-				<div id="menu">				
-					<input type="hidden" value="" id="data-ativo" />
-					<h1>Gridder</h1>
-					<h3>*Bloco*</h3>
-					<div class="separador"></div>
-					
-					
-					<div id="mais-container" class="botao botao-primeiro">
-						<span class="formata hvr-rotate"><a id="mais">+</a></span>
-					</div>
-					<div id="aumentar-direita" class="botao botao-chevron">
-						<span class="formata hvr-rotate"><a id="direita-mais">></a></span>
-					</div>
-					<div id="aumentar-baixo" class="botao botao-chevron">
-						<span class="formata hvr-rotate"><a id="baixo-mais">∨</a></span>
-					</div>
-					<div id="creditos">Rodrigo Zietlow</div>
-				</div>
-				<div id="outside"></div>
-			</div>
-
 			<div id="menu-total">
 				<span class="titulo">Gridder</span>
 				<div id="novo-bloco" class="botao botao-primeiro"><a class=" hvr-rotate">+</a></div>
@@ -210,7 +188,13 @@
 					<a id="direita-mais" class="hvr-rotate">></a>
 				</div>
 				<div id="aumentar-baixo" class="botao">
-					<span class="formata hvr-rotate"><a id="baixo-mais">∨</a></span>
+					<a id="baixo-mais" class="hvr-rotate">v</a>
+				</div>
+				<div id="margem-direita" class="botao">
+					<a id="margem-mais-direita" class="hvr-rotate">→</a>
+				</div>
+				<div id="margem-baixo" class="botao">
+					<a id="margem-mais-baixo" class="hvr-rotate">↓</a>
 				</div>
 			</div>
 			<div id='container' class="sortable">
@@ -296,19 +280,36 @@
 			
 			//aumentar um grid-lvl pra direita ou baixo//
 			
-			$("#direita-mais").click(function(){
+			$("#aumentar-direita").click(function(){
 				var tamanho = $(".ativo").width(),
 					extra = 14; //aqui é o tamanho extra que será adicionado
 				tamanho += extra;
 				$(".ativo").css("width", tamanho);
 			});
-			$("#baixo-mais").click(function(){
-				var tamanho = $(".ativo]").height(),
+			$("#aumentar-baixo").click(function(){
+				var tamanho = $(".ativo").height(),
 					extra = 14; //aqui é o tamanho extra que será adicionado
 				tamanho += extra;
 				$(".ativo").css("height", tamanho);
 			});
 			
+			
+			//aumentar a margem AKA botar pro lado//
+			
+			$("#margem-direita").click(function(){
+				var margem = parseInt($(".ativo").css("marginLeft")),
+					extra = 14; //aqui é o tamanho extra que será adicionado
+				margem += extra;
+				$(".ativo").css("margin-left", margem);
+				console.log(margem);
+			});
+			$("#margem-baixo").click(function(){
+				var margem = parseInt($(".ativo").css("margin-top")),
+					extra = 14; //aqui é o tamanho extra que será adicionado
+				margem += extra;
+				$(".ativo").css("margin-top", margem);
+				console.log(margem);
+			});
 		});
 	
 	</script>
