@@ -25,12 +25,16 @@
 				margin:0;
 				padding:0;
 			}
+			#wrapper-site{
+				width:100%;
+				height:100%;
+			}
 			.bloco{ 
 				float:left;
 				width:52px;
 				height:52px;
 				margin:2px;			
-				background-color:#14F161;
+				background-color:#000000;
 				display:table-cell;
 				border-radius:6px;
 				cursor:pointer;	
@@ -43,16 +47,16 @@
 				background-image:url("grid-bg.png");				
 				display: inline-block;
 				margin:2px;
+				margin-top:40px;
 				padding-left:2px;
 				padding-top:2px;
-				z-index:0;
 			}
 			#wrapper-menu{
 				position:absolute;
 				width:100%;
 				height:100%;
 				display:none;
-				z-index:1;
+				z-index:2;
 			}
 			#menu{
 				width:15%;
@@ -70,7 +74,7 @@
 				width:100%;
 				height:100%;
 				display:none;
-				z-index:1;
+				z-index:2;
 			}
 			#menu-direita{
 				width:15%;
@@ -87,43 +91,36 @@
 			.botao, .bota-chevron{
 				color:#DDDDDD;
 				font-family: 'Source Code Pro', ;
-				font-size:200%;
+				font-size:150%;
 				font-weight: 700;
 				text-align:center;
 				text-decoration:none;
-				width: 21.6777%;
-				height:7%;
-				margin-top:20px;
-				margin-left:5%;
+				width:2.5%;
+				margin-top:2px;
+				margin-left:5px;
 				background-color: #000000;
 				border-radius: 10px;
 				cursor:pointer;
 				border:solid rgba(255, 255,255, 0.1) 2px;
-				display:table;
+				display:inline-block;
 				vertical-align:middle;
 				float:left;
 			}
 			.botao:hover{
 				background-color:#222222;
 			}
-			.botao-primeiro{
-				margin-left:10%;
-			}
-			.botao-chevron{
-				font-size:160%;
-			}
 			.formata{
 				display:table-cell;
 			}
 			#div-cores{
-				width:80%;
-				margin-left:10%;
-				margin-top:20px;
-				height:10%;
-				background-color:blue;
+				width:4%;
+				height:70%;
+				margin-top:4px;
+				margin-left:5px;
 				border-radius:10px;
-				border:solid rgba(255, 255,255, 0.1) 3px;
+				border:solid rgba(255, 255,255, 0.1) 2px;
 				cursor:pointer;
+				float:left;
 			}
 			.invisivel{
 				width:1px;
@@ -145,9 +142,34 @@
 				margin-left:20px;
 			}
 			.separador{
-				width:90%;
-				margin-left:5%;
-				border-bottom: 2px solid rgba(255, 255,255, 0.5);
+				float:left;
+				height:40px;
+				margin-left:10px;
+				margin-right:5px;
+				border-right: 2px solid rgba(255, 255,255, 0.5);
+			}
+			#menu-total{
+				width:100%;
+				height:40px;
+				background-color:black;
+				position:fixed;
+				left:0;
+				top:0;
+				z-index:1;
+			}
+			.titulo{
+				float:left;
+				text-align:center;
+				color:#6AF50E;
+				font-family: 'Josefin Sans', sans-serif;
+				height:40px;
+				font-size:30px;
+				margin-right:20px;
+				margin-left:5px;
+				font-weight:700;
+			}
+			.ativo{
+				 box-shadow: inset 0 0 10px #000000, inset 0 0 10px #000000, inset 0 0 10px #000000;
 			}
 		</style>
 	
@@ -155,40 +177,45 @@
 
 	
 	<body>
-		<div id="wrapper-menu">
-			<div id="menu">				
-				<input type="hidden" value="" id="data-ativo" />
-				<h1>Gridder</h1>
-				<h3>*Bloco*</h3>
+		<div id="wrapper-site">
+			<div id="wrapper-menu">
+				<div id="menu">				
+					<input type="hidden" value="" id="data-ativo" />
+					<h1>Gridder</h1>
+					<h3>*Bloco*</h3>
+					<div class="separador"></div>
+					
+					
+					<div id="mais-container" class="botao botao-primeiro">
+						<span class="formata hvr-rotate"><a id="mais">+</a></span>
+					</div>
+					<div id="aumentar-direita" class="botao botao-chevron">
+						<span class="formata hvr-rotate"><a id="direita-mais">></a></span>
+					</div>
+					<div id="aumentar-baixo" class="botao botao-chevron">
+						<span class="formata hvr-rotate"><a id="baixo-mais">∨</a></span>
+					</div>
+					<div id="creditos">Rodrigo Zietlow</div>
+				</div>
+				<div id="outside"></div>
+			</div>
+
+			<div id="menu-total">
+				<span class="titulo">Gridder</span>
+				<div id="novo-bloco" class="botao botao-primeiro"><a class=" hvr-rotate">+</a></div>
 				<div class="separador"></div>
 				<div id="div-cores"></div>
 				<input type="color" id="color-picker" class="invisivel">
-				<div id="mais-container" class="botao botao-primeiro">
-					<span class="formata hvr-rotate"><a id="mais">+</a></span>
+				<div id="aumentar-direita" class="botao">
+					<a id="direita-mais" class="hvr-rotate">></a>
 				</div>
-				<div id="aumentar-direita" class="botao botao-chevron">
-					<span class="formata hvr-rotate"><a id="direita-mais">></a></span>
-				</div>
-				<div id="aumentar-baixo" class="botao botao-chevron">
+				<div id="aumentar-baixo" class="botao">
 					<span class="formata hvr-rotate"><a id="baixo-mais">∨</a></span>
 				</div>
-				<div id="creditos">Rodrigo Zietlow</div>
 			</div>
-			<div id="outside"></div>
-		</div>
-		<div id="wrapper-menu-direita">
-			
-			<div id="outside-direita"></div>
-			<div id="menu-direita">				
-				<h1>Gridder</h1>
-				<h3>*Grid*</h3>
-				<div class="separador"></div>
-				<div id="novo-bloco" class="botao botao-primeiro"><a >+</a></div>
+			<div id='container' class="sortable">
 			</div>
 		</div>
-		<div id='container' class="sortable">
-		</div>
-		
 	</body>	
 	
 	<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
@@ -232,21 +259,14 @@
 				$("#color-picker").val($(this).css("background-color"));
 				$("#div-cores").css("background-color", $("#color-picker").val());
 				$("#data-ativo").val($(this).attr("data-id"));
-				$("#wrapper-menu").show("slide", { direction: "left", easing: "easeOutExpo" }, 700);
+				$(".ativo").removeClass("ativo");
+				$(this).addClass("ativo");
+				//$("#wrapper-menu").show("slide", { direction: "left", easing: "easeOutExpo" }, 700);
 			});
 			
 			//menu da direita
 			
-			$("#container").click(function(e){
-				console.log("cliquei no container?");
-				$("#wrapper-menu-direita").show("slide", { direction: "right", easing: "easeOutExpo" }, 700);
-			});
-			// criar bloco//
-			$("#outside-direita").click(function(){				
-				$("#wrapper-menu-direita").hide("slide", { direction: "right", easing: "easeInExpo"  }, 700);
-			});
-			
-			
+						
 			//cores man//
 			
 			$("#div-cores").click(function (){
@@ -257,18 +277,13 @@
 			
 			$("#color-picker").change(function(){
 				$("#div-cores").css("background-color", $(this).val());
+				$(".ativo").css("background-color",$(this).val());
 			});
 			
 			
 			//efeitos ao sair do menu esquerdo//
 			
-			$("#outside").click(function(){
-				var cor = $("#color-picker").val(),
-					idOnde = $("#data-ativo").val();
-				$("#data-ativo").val($(this).attr(""));	
-				$(".bloco[data-id='" + idOnde + "']").css("background-color", cor);
-				$("#wrapper-menu").hide("slide", { direction: "left", easing: "easeInExpo"  }, 700);
-			});  
+			
 			
 			// modelos e coisas// 
 			var modelo = '<div class="bloco" data-id="###" data-tamanho="1"></div>',
@@ -277,24 +292,21 @@
 				var pronto = modelo.replace(/###/g, contador);
 				contador += 1;
 				$("#container").append(pronto);
-				$("#outside-direita").click();
 			});
 			
 			//aumentar um grid-lvl pra direita ou baixo//
 			
 			$("#direita-mais").click(function(){
-				var idOnde = $("#data-ativo").val(),
-					tamanho = $(".bloco[data-id="+idOnde+"]").width(),
+				var tamanho = $(".ativo").width(),
 					extra = 14; //aqui é o tamanho extra que será adicionado
 				tamanho += extra;
-				$(".bloco[data-id="+idOnde+"]").css("width", tamanho);
+				$(".ativo").css("width", tamanho);
 			});
 			$("#baixo-mais").click(function(){
-				var idOnde = $("#data-ativo").val(),
-					tamanho = $(".bloco[data-id="+idOnde+"]").height(),
+				var tamanho = $(".ativo]").height(),
 					extra = 14; //aqui é o tamanho extra que será adicionado
 				tamanho += extra;
-				$(".bloco[data-id="+idOnde+"]").css("height", tamanho);
+				$(".ativo").css("height", tamanho);
 			});
 			
 		});
