@@ -27,14 +27,14 @@
 			}
 			.bloco{ 
 				float:left;
-				width:10px;
-				height:10px;
+				width:52px;
+				height:52px;
 				margin:2px;			
-				background-color:#DDDDDD;
+				background-color:#14F161;
 				display:table-cell;
-				border-radius:2px;
-				cursor:pointer;
-	
+				border-radius:6px;
+				cursor:pointer;	
+				z-index:1;
 			}
 			#container{
 				position: absolute;
@@ -45,6 +45,7 @@
 				margin:2px;
 				padding-left:2px;
 				padding-top:2px;
+				z-index:0;
 			}
 			#wrapper-menu{
 				position:absolute;
@@ -102,6 +103,9 @@
 				vertical-align:middle;
 				float:left;
 			}
+			.botao:hover{
+				background-color:#222222;
+			}
 			.botao-primeiro{
 				margin-left:10%;
 			}
@@ -125,14 +129,19 @@
 				height:1px;
 				opacity:0;
 			}
-			h1, #creditos{
+			h1,h3, #creditos{
 				text-align:center;
 				color:#6AF50E;
 				font-family: 'Josefin Sans', sans-serif;
 			}
 			#creditos{
+				position:absolute;
 				height:5%;
-				margin-top:220%;
+				bottom:0%;
+				margin-left:4%;
+			}
+			#menu-direita h1{
+				margin-left:20px;
 			}
 		</style>
 	
@@ -144,6 +153,7 @@
 			<div id="menu">				
 				<input type="hidden" value="" id="data-ativo" />
 				<h1>Gridder</h1>
+				<h3>*Bloco*</h3>
 				<div id="div-cores"></div>
 				<input type="color" id="color-picker" class="invisivel">
 				<div id="mais-container" class="botao botao-primeiro">
@@ -163,7 +173,8 @@
 			
 			<div id="outside-direita"></div>
 			<div id="menu-direita">				
-				
+				<h1>Gridder</h1>
+				<div id="novo-bloco" class="botao botao-primeiro"><a >+</a></div>
 			</div>
 		</div>
 		<div id='container' class="sortable">
@@ -197,31 +208,33 @@
 					}
 				}
 			}
+			
 			//iniciar os sortables maravilhosos
-			
-			
-			$( ".sortable" ).sortable();
-			$( ".sortable" ).disableSelection();
+			//$( ".sortable" ).sortable();
+			//$( ".sortable" ).disableSelection();
 			  
 			//aqui os blocos ganham propriedades e mágica começa
 			
 			
-			$("body").delegate(".bloco", "click", function(){
+			$("#container").delegate(".bloco", "click", function(e){
+				e.stopPropagation();
 				$(this).attr("data-nome", "novo nome");	
 				console.log($(this).css("background-color"));
 				$("#color-picker").val($(this).css("background-color"));
 				$("#div-cores").css("background-color", $("#color-picker").val());
 				$("#data-ativo").val($(this).attr("data-id"));
-				$("#wrapper-menu").animate({width:'toggle'},150);
+				$("#wrapper-menu").show("slide", { direction: "left", easing: "easeOutExpo" }, 700);
 			});
 			
 			//menu da direita
 			
-			$("#container").click(function(){
-				$("#wrapper-menu-direita").show("slide", { direction: "right" }, 1000);
+			$("#container").click(function(e){
+				console.log("cliquei no container?");
+				$("#wrapper-menu-direita").show("slide", { direction: "right", easing: "easeOutExpo" }, 700);
 			});
-			$("#outside-direita").click(function(){
-				$("#wrapper-menu-direita").hide("slide", { direction: "right" }, 1000);
+			// criar bloco//
+			$("#outside-direita").click(function(){				
+				$("#wrapper-menu-direita").hide("slide", { direction: "right", easing: "easeInExpo"  }, 700);
 			});
 			
 			
@@ -238,59 +251,41 @@
 			});
 			
 			
-			//efeitos ao sair do menu//
+			//efeitos ao sair do menu esquerdo//
 			
 			$("#outside").click(function(){
 				var cor = $("#color-picker").val(),
 					idOnde = $("#data-ativo").val();
 				$("#data-ativo").val($(this).attr(""));	
 				$(".bloco[data-id='" + idOnde + "']").css("background-color", cor);
-				$("#wrapper-menu").animate({width:'toggle'},150);
+				$("#wrapper-menu").hide("slide", { direction: "left", easing: "easeInExpo"  }, 700);
 			});  
 			
-			
-			// criar linha//
-			
+			// modelos e coisas// 
 			var modelo = '<div class="bloco" data-id="###" data-tamanho="1"></div>',
-				contador = 1,
-				linhaAtual = 1;
-			;
-			$("#mais").click( function(){
-				
-				while(contador<=(97*linhaAtual)){
-					//console.log(modelo)
-					var pronto = modelo.replace(/###/g, contador);
-					$("#container").append(pronto);
-					contador+=1;
-				}
-				linhaAtual +=1;
+				contador = 1;
+			$("#novo-bloco").click(function(){
+				var pronto = modelo.replace(/###/g, contador);
+				contador += 1;
+				$("#container").append(pronto);
+				$("#outside-direita").click();
 			});
-			//$("#mais").trigger("click");
 			
+			//aumentar um grid-lvl pra direita//
 			
-			//aumentar um bloco pra direita// --------- é dificil!!
-			
-			var tamanhoPadrao = 68;
-			var margemPadrao  = 3.375;
-			//console.log(margemPadrao);
-			$("#aumentar-direita").click(function(){
-				
-				var dataId = $("#data-ativo").val();
-				
-				if(dataId%18!=0){
-					
-					var datatamanho = parseInt($(".bloco[data-id='" + dataId + "']").attr("data-tamanho")),
-						idProximo = parseInt(dataId)+1+parseInt(datatamanho)-1,
-						datatamanhoProximo = parseInt($(".bloco[data-id='" + idProximo + "']").attr("data-tamanho")),
-						tamanho = parseFloat($(".bloco[data-id='" + dataId + "']").css("width"), 10)+ (tamanhoPadrao*datatamanhoProximo),						
-						margem = parseFloat($(".bloco[data-id='" + dataId + "']").css("margin-left"), 10) + (margemPadrao*datatamanhoProximo),
-						tamanhoTotal = tamanho+margem;
-					console.log(tamanho+" de tamanho, "+margem+" de margem");
-					$(".bloco[data-id='" + idProximo + "']").remove();
-					$(".bloco[data-id='" + dataId + "']").css("width", tamanhoTotal);
-					$(".bloco[data-id='" + dataId + "']").attr("data-tamanho", parseInt($(".bloco[data-id='" + dataId + "']").attr("data-tamanho"))+1);
-				}
-			
+			$("#direita-mais").click(function(){
+				var idOnde = $("#data-ativo").val(),
+					tamanho = $(".bloco[data-id="+idOnde+"]").width(),
+					extra = 14; //aqui é o tamanho extra que será adicionado
+				tamanho += extra;
+				$(".bloco[data-id="+idOnde+"]").css("width", tamanho);
+			});
+			$("#baixo-mais").click(function(){
+				var idOnde = $("#data-ativo").val(),
+					tamanho = $(".bloco[data-id="+idOnde+"]").height(),
+					extra = 14; //aqui é o tamanho extra que será adicionado
+				tamanho += extra;
+				$(".bloco[data-id="+idOnde+"]").css("height", tamanho);
 			});
 			
 		});
