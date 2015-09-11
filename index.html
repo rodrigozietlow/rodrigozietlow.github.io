@@ -53,7 +53,7 @@
 				width:52px;
 				height:52px;
 				margin:2px;			
-				background-color:#000000;
+				background-color:#DDDDDD;
 				display:table-cell;
 				border-radius:6px;
 				cursor:pointer;	
@@ -245,8 +245,12 @@
 					<a id="descape-back-line" ><span class="especial" style="font-weight:1000;font-size:27;top:2px">&#10551;</span></a>
 				</div>
 				<div class="separador"></div>
-				<div id="excluir" class="botao hvr-rotate-inverse">
-					<a id="delete" >X</a>
+				<div id="excluir" class="botao hvr-rotate-inverse"style="height:30px">
+					<a id="delete" ><span class="especial" >x</span></a>
+				</div>
+				<div class="separador"></div>
+				<div id="salvar" class="botao hvr-rotate-inverse"style="height:30px">
+					<a id="save">💾</a>
 				</div>
 			</div>
 			<div id='container' class="sortable">
@@ -257,9 +261,12 @@
 	<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/vader/jquery-ui.css">
 	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.0.3/js.cookie.js	"></script>
 	<script>
 		$(document).ready(function(){
-		
+			if(Cookies.get("gridder")!=""){
+				$("#container").html(Cookies.get("gridder"));
+			}
 			//este hook é uma gamb, peguei do stackoverflow HEIAUEHIAUHAE
 			//serve pra pegar hex em vez de rgb quando eu pegar com .css(background-color)
 			$.cssHooks.backgroundColor = {
@@ -282,8 +289,8 @@
 			}
 			
 			//iniciar os sortables maravilhosos
-			//$( ".sortable" ).sortable();
-			//$( ".sortable" ).disableSelection();
+			$( ".sortable" ).sortable();
+			$( ".sortable" ).disableSelection();
 			  
 			//aqui os blocos ganham propriedades e mágica começa
 			
@@ -350,13 +357,10 @@
 			});
 			$("#aumentar-esquerda").click(function(){
 				var tamanho = $(".ativo").width(),
-					margem = parseInt($(".ativo").css("margin-left"));
-					extra = 14; //aqui é o tamanho extra que será adicionado
-				tamanho += extra;
-				console.log(margem);
-				if(margem+tamanho<=w_grid && margem>extra){
-					$(".ativo").css("margin-left", (margem-extra));
-					$(".ativo").css("width", tamanho);
+					extra = 14; //aqui é o tamanho extra que será removido
+				console.log(tamanho);
+				if(tamanho>extra){					
+					$(".ativo").css("width", (tamanho-extra));
 				}
 			});
 			$("#aumentar-baixo").click(function(){
@@ -370,13 +374,11 @@
 			});
 			$("#aumentar-cima").click(function(){
 				var tamanho = $(".ativo").height(),
-					margem = parseInt($(".ativo").css("margin-top"))
 					extra = 14; //aqui é o tamanho extra que será adicionado
-				tamanho += extra;
 				
-				if(margem+tamanho<=h_grid && margem>extra){
-					$(".ativo").css("margin-top", (margem-extra));
-					$(".ativo").css("height", tamanho);
+				
+				if(tamanho>extra){
+					$(".ativo").css("height", tamanho-extra);
 				}
 			});
 			
@@ -436,9 +438,15 @@
 			});
 			
 			$("#excluir").click(function(){
-				$(".ativo").hide("slide", { direction: "left" }, 1000, function(){
+				$(".ativo").hide("slide", { direction: "left" }, 100, function(){
 					$(".ativo").remove();
 				});			
+			});
+			
+			$("#salvar").click(function(){
+				var conteudo = $.trim($("#container").html());
+				console.log("gridder="+conteudo);
+				Cookies.set('gridder', conteudo);
 			});
 		});
 	
