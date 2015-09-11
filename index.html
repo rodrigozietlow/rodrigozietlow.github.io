@@ -265,6 +265,7 @@
 	<script>
 		$(document).ready(function(){
 			if(Cookies.get("gridder")!=""){
+				console.log(Cookies.get("gridder"));
 				$("#container").html(Cookies.get("gridder"));
 			}
 			//este hook é uma gamb, peguei do stackoverflow HEIAUEHIAUHAE
@@ -444,7 +445,7 @@
 			});
 			
 			$("#salvar").click(function(){
-				var conteudo = $.trim($("#container").html());
+				var conteudo = $.trim(escape($("#container").html()));
 				console.log("gridder="+conteudo);
 				Cookies.set('gridder', conteudo);
 			});
