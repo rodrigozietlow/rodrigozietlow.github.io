@@ -264,7 +264,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.0.3/js.cookie.js	"></script>
 	<script>
 		$(document).ready(function(){
-			if(Cookies.get("gridder")!=""){
+			if(Cookies.get("gridder")!="undefined"){
 				console.log(Cookies.get("gridder"));
 				$("#container").html(decodeURI(Cookies.get("gridder")));
 			}
