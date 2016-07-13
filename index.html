@@ -125,6 +125,10 @@
 				display:inline-block;
 				vertical-align:middle;
 				float:left;
+				-moz-user-select: none; 
+				-khtml-user-select: none; 
+				-webkit-user-select: none; 
+				-o-user-select: none; 
 			}
 			.botao:hover{
 				background-color:#222222;
@@ -334,7 +338,7 @@
 				contador = 1;
 			var w_grid = $('#container').width();
 			var h_grid = $('#container').height();
-			
+			var mouseStillDown = false;
 			//novo bloco//
 			
 			$("#novo-bloco").click(function(){
@@ -346,25 +350,51 @@
 			});
 			
 			//aumentar um grid-lvl pra direita ou baixo//
+			var intervalo = "";
+			$("#aumentar-direita").mousedown(function(){
+				intervalo = setInterval(aumentaDireita, 75);
+			});
+			$("#aumentar-direita").mouseup(function(event) {
+				console.log(intervalo);
+				clearInterval(intervalo);
+			});
 			
-			$("#aumentar-direita").click(function(){
+			aumentaDireita = function(){
+				var ativo = $(".ativo");
 				var tamanho = $(".ativo").width(),
-					margem = parseInt($(".ativo").css("margin-left"));
+					margem = parseInt(ativo.css("margin-left"));
 					extra = 14; //aqui é o tamanho extra que será adicionado
 				tamanho += extra;
 				if(margem+tamanho<=w_grid){
-					$(".ativo").css("width", tamanho);
+					ativo.css("width", tamanho);
 				}
+			};
+			
+			$("#aumentar-esquerda").mousedown(function(){
+				intervalo = setInterval(aumentaEsquerda, 75);
 			});
-			$("#aumentar-esquerda").click(function(){
+			$("#aumentar-esquerda").mouseup(function(){
+				clearInterval(intervalo);
+			});
+			
+			aumentaEsquerda = function(){
 				var tamanho = $(".ativo").width(),
 					extra = 14; //aqui é o tamanho extra que será removido
 				console.log(tamanho);
 				if(tamanho>extra){					
 					$(".ativo").css("width", (tamanho-extra));
 				}
+			};
+			
+			
+			$("#aumentar-baixo").mousedown(function(){
+				intervalo = setInterval(aumentarBaixo, 75);
 			});
-			$("#aumentar-baixo").click(function(){
+			$("#aumentar-baixo").mouseup(function(){
+				clearInterval(intervalo);
+			});
+			
+			aumentarBaixo = function(){
 				var tamanho = $(".ativo").height(),
 					margem = parseInt($(".ativo").css("margin-top"))
 					extra = 14; //aqui é o tamanho extra que será adicionado
@@ -372,21 +402,33 @@
 				if(margem+tamanho<=h_grid){
 					$(".ativo").css("height", tamanho);
 				}
+			};
+			
+			$("#aumentar-cima").mousedown(function(){
+				intervalo = setInterval(aumentarCima, 75);
 			});
-			$("#aumentar-cima").click(function(){
+			$("#aumentar-cima").mouseup(function(){
+				clearInterval(intervalo);
+			});
+			
+			aumentarCima = function(){
 				var tamanho = $(".ativo").height(),
 					extra = 14; //aqui é o tamanho extra que será adicionado
-				
-				
 				if(tamanho>extra){
 					$(".ativo").css("height", tamanho-extra);
 				}
-			});
-			
+			}
 			
 			//aumentar a margem AKA botar pro lado//
 			
-			$("#margem-direita").click(function(){
+			$("#margem-direita").mousedown(function(){
+				intervalo = setInterval(margemDireita, 75);
+			});
+			$("#margem-direita").mouseup(function(){
+				clearInterval(intervalo);
+			});
+			
+			margemDireita = function(){
 				var margem = parseInt($(".ativo").css("marginLeft")),
 					tamanho = $(".ativo").width();
 					extra = 14; //aqui é o tamanho extra que será adicionado
@@ -394,9 +436,8 @@
 				if(margem+tamanho<=w_grid){
 					$(".ativo").css("margin-left", margem);
 				}
-				
-				console.log(margem);
-			});
+			}
+			
 			$("#margem-esquerda").click(function(){
 				var margem = parseInt($(".ativo").css("marginLeft")),
 					tamanho = $(".ativo").width();
